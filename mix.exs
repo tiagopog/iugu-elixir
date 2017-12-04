@@ -28,7 +28,6 @@ defmodule Iugu.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:ecto, "~> 2.1"},
       {:httpoison, "~> 0.13"},
       {:poison, "~> 3.1"}
     ]
