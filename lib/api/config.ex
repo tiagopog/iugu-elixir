@@ -7,7 +7,7 @@ defmodule Iugu.Config do
 
   defstruct resource: nil,
             api_token: nil,
-            api_secret: nil,
+            api_key: nil,
             domain: "https://api.iugu.com",
             api_version: "v1"
 
@@ -23,7 +23,7 @@ defmodule Iugu.Config do
     ]
   end
 
-  def generate_basic_token(%Config{api_secret: api_secret}) do
-    Base.url_encode64(api_secret <> ":", padding: false)
+  def generate_basic_token(%Config{api_key: api_key}) do
+    Base.url_encode64(api_key <> ":", padding: false)
   end
 end
