@@ -5,11 +5,13 @@ defmodule Iugu.Config do
 
   alias Iugu.Config
 
-  defstruct resource: nil,
-            api_token: nil,
-            api_key: nil,
-            domain: "https://api.iugu.com",
-            api_version: "v1"
+  defstruct [
+    :resource,
+    :api_token,
+    :api_key,
+    domain: "https://api.iugu.com",
+    api_version: "v1"
+  ]
 
   def build_url(%Config{} = config) do
     [config.domain, config.api_version, config.resource]
