@@ -23,8 +23,4 @@ defmodule Iugu.Customer do
     :created_at,
     :updated_at
   ]
-
-  def from_json(%{} = data) do
-    struct(%__MODULE__{}, data)
-  end
 end

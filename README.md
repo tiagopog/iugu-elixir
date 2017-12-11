@@ -114,7 +114,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
   - [ ] Remove Web Hook
   - [ ] Show Web Hook
   - [ ] List Web Hooks
-- Withdraw Requests
+- [ ] Withdraw Requests
   - [ ] Show Withdraw Request
   - [ ] List Withdraw Requests
 
