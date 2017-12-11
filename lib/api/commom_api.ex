@@ -5,20 +5,20 @@ defmodule Iugu.CommonApi do
 
   alias Iugu.Config
 
-  def get!(%Config{} = config, parser) do
+  def get!(%Config{} = config, model) do
     Config.build_url(config)
     |> HTTPoison.get!(Config.build_headers(config))
-    |> parse_response(parser)
+    |> parse_response(model)
   end
 
-  defp parse_response(%HTTPoison.Response{body: body, status_code: 200}, parser) do
+  defp parse_response(%HTTPoison.Response{body: body, status_code: 200}, model) do
     body
     |> Poison.Parser.parse(keys: :atoms)
-    |> format_result(parser)
+    |> format_result(model)
   end
 
-  defp format_result({:ok, %{items: items, totalItems: count}}, parser) do
-    items = Enum.map(items, &(struct(parser.__struct__, &1)))
+  defp format_result({:ok, %{items: items, totalItems: count}}, model) do
+    items = Enum.map(items, &(struct(model.__struct__, &1)))
     {:ok, items, count}
   end
 
