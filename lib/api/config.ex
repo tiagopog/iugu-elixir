@@ -1,9 +1,9 @@
-defmodule Iugu.Config do
+defmodule Iugu.Client do
   @moduledoc """
-  Holds config data for calling the Iugu's API
+  HTTP client-related functions used as base for calling the Iugu's endpoints
   """
 
-  alias Iugu.Config
+  alias Iugu.Client
 
   defstruct [
     :resource,
@@ -13,19 +13,19 @@ defmodule Iugu.Config do
     api_version: "v1"
   ]
 
-  def build_url(%Config{} = config) do
-    [config.domain, config.api_version, config.resource]
+  def build_url(%Client{} = client) do
+    [client.domain, client.api_version, client.resource]
     |> Enum.join("/")
   end
 
-  def build_headers(%Config{} = config) do
+  def build_headers(%Client{} = client) do
     [
-      "Authorization": "Basic #{Config.generate_basic_token(config)}",
+      "Authorization": "Basic #{Client.generate_basic_token(client)}",
       "Accept": "Application/json; Charset=utf-8"
     ]
   end
 
-  def generate_basic_token(%Config{api_key: api_key}) do
+  def generate_basic_token(%Client{api_key: api_key}) do
     Base.url_encode64(api_key <> ":", padding: false)
   end
 end

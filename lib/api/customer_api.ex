@@ -3,13 +3,13 @@ defmodule Iugu.CustomerApi do
   Iugu Customer API module
   """
 
-  alias Iugu.{Config,CommonApi,Customer}
+  alias Iugu.{Client,CommonApi,Customer}
 
   @schema Customer
   @resource "customers"
 
-  def list(%Config{} = config, schema \\ @schema) do
-    CommonApi.get!(%Config{config| resource: @resource}, schema)
+  def list(%Client{} = client) do
+    CommonApi.get!(%Client{client| resource: @resource}, @schema)
     # {:ok, [%Iugu.Customer{},...], 128}
   end
 end

@@ -1,13 +1,13 @@
 defmodule Iugu.CommonApi do
   @moduledoc """
-  Abstraction to make requests and parse responses to/from Iugu.
+  Abstraction for making requests and parsing responses to/from Iugu.
   """
 
-  alias Iugu.Config
+  alias Iugu.Client
 
-  def get!(%Config{} = config, schema) do
-    Config.build_url(config)
-    |> HTTPoison.get!(Config.build_headers(config))
+  def get!(%Client{} = client, schema) do
+    Client.build_url(client)
+    |> HTTPoison.get!(Client.build_headers(client))
     |> parse_response(schema)
   end
 

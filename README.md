@@ -125,7 +125,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 #### List
 
 ```elixir
-config = %Iugu.Config{api_key: "YOUR_API_KEY"}
-Iugu.CustomerApi.list!(config)
+client = %Iugu.Client{api_key: "YOUR_API_KEY"}
+Iugu.CustomerApi.list(client)
 #=> {:ok, [%Iugu.Customer{cc_emails: nil, city: "Campo Mourão", complement: "Cobertura", ...}], 128}
 ```
