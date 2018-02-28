@@ -8,8 +8,7 @@ defmodule Iugu.CustomerApi do
   @schema Customer
   @resource "customers"
 
-  def list(%Client{} = client) do
-    CommonApi.get!(%Client{client| resource: @resource}, @schema)
-    # {:ok, [%Iugu.Customer{},...], 128}
+  def list(%Client{} = client, params \\ %{}) do
+    CommonApi.get(client, @resource, params, @schema)
   end
 end

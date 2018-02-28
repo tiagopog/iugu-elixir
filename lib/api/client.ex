@@ -6,15 +6,14 @@ defmodule Iugu.Client do
   alias Iugu.Client
 
   defstruct [
-    :resource,
     :api_token,
     :api_key,
     domain: "https://api.iugu.com",
     api_version: "v1"
   ]
 
-  def build_url(%Client{} = client) do
-    [client.domain, client.api_version, client.resource]
+  def build_url(%Client{} = client, resource) do
+    [client.domain, client.api_version, resource]
     |> Enum.join("/")
   end
 
