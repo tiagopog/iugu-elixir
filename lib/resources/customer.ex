@@ -1,7 +1,12 @@
 defmodule Iugu.Customer do
   @moduledoc """
-  Iugu Customer module
+  Iugu Customer resource
   """
+
+  use Iugu.Resource
+  alias Iugu.Request
+
+  @resource "customers"
 
   defstruct [
     :id,
@@ -23,4 +28,8 @@ defmodule Iugu.Customer do
     :created_at,
     :updated_at
   ]
+
+  def list(%Request{} = request) do
+    Iugu.get(request, @resource, __MODULE__)
+  end
 end
