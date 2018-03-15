@@ -3,13 +3,15 @@ defmodule Iugu.Request do
   TODO
   """
 
+  import Application, only: [get_env: 2]
   alias Iugu.Request
 
   defstruct [
     :api_token,
-    :api_key,
-    domain: "https://api.iugu.com",
-    api_version: "v1"
+    api_key: get_env(:iugu, :api_key),
+    api_version: get_env(:iugu, :api_version),
+    domain: get_env(:iugu, :domain),
+    query_params: %{}
   ]
 
   def build_url(%Request{} = request, resource) do

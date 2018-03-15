@@ -18,3 +18,4 @@ erl_crash.dump
 
 # Other
 *.sw*
+.env

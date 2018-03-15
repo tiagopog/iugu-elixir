@@ -9,7 +9,7 @@ defmodule Iugu.Parser do
     |> format_result(schema)
   end
 
-  def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 404}}, schema) do
+  def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 404}}, _schema) do
     {:ok, error} = body |> Poison.Parser.parse(keys: :atoms)
     {:error, error}
   end

@@ -9,4 +9,9 @@ defmodule Iugu.Customer do
   def list(%Request{} = request) do
     Iugu.get(request, @resource, __MODULE__)
   end
+
+  def list(params \\ %{}) when is_map(params) do
+    %Request{query_params: params}
+    |> list()
+  end
 end
