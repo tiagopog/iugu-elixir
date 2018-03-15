@@ -11,7 +11,7 @@ defmodule Iugu.Request do
     api_key: get_env(:iugu, :api_key),
     api_version: get_env(:iugu, :api_version),
     domain: get_env(:iugu, :domain),
-    query_params: %{}
+    params: %{}
   ]
 
   def build_url(%Request{} = request, resource) do

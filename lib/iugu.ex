@@ -3,12 +3,11 @@ defmodule Iugu do
   TODO
   """
 
-  import Iugu.Parser
-  alias Iugu.Request
+  alias Iugu.{Parser,Request}
 
-  def get(%Request{} = request, resource, schema) do
+  def get(%Request{params: params} = request, resource, module) do
     Request.build_url(request, resource)
-    |> HTTPoison.get(Request.build_headers(request))
-    |> parse_response(schema)
+    |> HTTPoison.get(Request.build_headers(request), params: params)
+    |> Parser.parse_response(module)
   end
 end
