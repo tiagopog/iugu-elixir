@@ -14,8 +14,8 @@ defmodule Iugu.Request do
     params: %{}
   ]
 
-  def build_url(%Request{} = request, resource) do
-    [request.domain, request.api_version, resource]
+  def build_url(%Request{} = request, path) do
+    [request.domain, request.api_version, path]
     |> Enum.join("/")
   end
 

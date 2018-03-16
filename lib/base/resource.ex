@@ -33,6 +33,15 @@ defmodule Iugu.Resource do
     end
   end
 
+  def define_action(:show) do
+    quote do
+      def show(id) do
+        %Iugu.Request{params: %{id: id}}
+        |> Iugu.get("#{@resource}/#{id}", __MODULE__)
+      end
+    end
+  end
+
   def fields(resource) do
     Application.get_env(:iugu, String.to_atom(resource))
   end

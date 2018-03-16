@@ -5,5 +5,5 @@ defmodule Iugu.Customer do
 
   use Iugu.Resource,
     name: "customers",
-    actions: [:list]
+    actions: [:list, :show]
 end

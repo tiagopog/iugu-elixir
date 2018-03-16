@@ -21,5 +21,6 @@ defmodule Iugu.Parser do
     {:ok, items, count}
   end
 
+  def format_result({:ok, %{} = body}, module), do: struct(module.__struct__, body)
   def format_result(_, _), do: {:error, "Can't parse the response"}
 end
