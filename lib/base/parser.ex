@@ -3,24 +3,23 @@ defmodule Iugu.Parser do
   TODO
   """
 
-  def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}, module) do
+  def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}, module, :collection) do
+    case body |> Poison.decode(as: %{"items" => [module.__struct__]}, keys: :atoms) do
+      {:ok, %{items: items, totalItems: count}} -> {:ok, items, count}
+      {status, data} -> {status, data}
+    end
+  end
+
+  def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}, module, :single) do
     body
-    |> Poison.Parser.parse(keys: :atoms)
-    |> format_result(module)
+    |> Poison.decode(as: module.__struct__, keys: :atoms)
   end
 
-  def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 404}}, _module) do
-    {:ok, error} = body |> Poison.Parser.parse(keys: :atoms)
-    {:error, error}
+  def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 404}}, _module, :single) do
+    body |> Poison.Parser.parse(keys: :atoms)
   end
 
-  def parse_response({:error, _}), do: {:error, "Error while calling the Iugu's API"}
-
-  def format_result({:ok, %{items: items, totalItems: count}}, module) do
-    items = Enum.map(items, &(struct(module.__struct__, &1)))
-    {:ok, items, count}
+  def parse_response({:error, _}) do
+    {:error, "Can't parse the response from Iugu's API"}
   end
-
-  def format_result({:ok, %{} = body}, module), do: struct(module.__struct__, body)
-  def format_result(_, _), do: {:error, "Can't parse the response"}
 end

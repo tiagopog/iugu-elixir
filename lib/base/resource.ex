@@ -5,6 +5,7 @@ defmodule Iugu.Resource do
 
   defmacro __using__([name: resource, actions: actions]) do
     quote do
+      @derive [Poison.Encoder]
       @resource unquote(resource)
       defstruct unquote(fields(resource))
       Module.eval_quoted(__MODULE__, unquote(define_actions(actions)), [], __ENV__)
@@ -21,15 +22,13 @@ defmodule Iugu.Resource do
       def list(params \\ %{})
 
       def list(%Iugu.Request{} = request) do
-        Iugu.get(request, @resource, __MODULE__)
+        Iugu.get(request, @resource, __MODULE__, :collection)
       end
 
       def list(params) when is_map(params) do
         %Iugu.Request{params: params}
         |> list()
       end
-
-      defoverridable [list: 1]
     end
   end
 
@@ -37,7 +36,7 @@ defmodule Iugu.Resource do
     quote do
       def show(id) do
         %Iugu.Request{params: %{id: id}}
-        |> Iugu.get("#{@resource}/#{id}", __MODULE__)
+        |> Iugu.get("#{@resource}/#{id}", __MODULE__, :single)
       end
     end
   end
