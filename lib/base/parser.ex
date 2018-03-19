@@ -3,19 +3,24 @@ defmodule Iugu.Parser do
   TODO
   """
 
-  def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}, module, :collection) do
+  alias HTTPoison.Response
+
+  def parse_response({:ok, %Response{body: body, status_code: 200}}, module, :collection) do
     case body |> Poison.decode(as: %{"items" => [module.__struct__]}, keys: :atoms) do
       {:ok, %{items: items, totalItems: count}} -> {:ok, items, count}
-      {status, data} -> {status, data}
+      {status, result} -> {status, result}
     end
   end
 
-  def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}, module, :single) do
-    body
-    |> Poison.decode(as: module.__struct__, keys: :atoms)
+  def parse_response({:ok, %Response{body: body, status_code: 200}}, module, :single) do
+    body |> Poison.decode(as: module.__struct__, keys: :atoms)
   end
 
-  def parse_response({:ok, %HTTPoison.Response{body: body, status_code: 404}}, _module, :single) do
+  def parse_response({:ok, %Response{body: body, status_code: 404}}, _module, :single) do
+    body |> Poison.Parser.parse(keys: :atoms)
+  end
+
+  def parse_response({:ok, %Response{body: body, status_code: 422}}, _module, :single) do
     body |> Poison.Parser.parse(keys: :atoms)
   end
 

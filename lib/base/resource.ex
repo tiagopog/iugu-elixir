@@ -22,7 +22,8 @@ defmodule Iugu.Resource do
       def list(params \\ %{})
 
       def list(%Iugu.Request{} = request) do
-        Iugu.get(request, @resource, __MODULE__, :collection)
+        %Iugu.Request{request | path: @resource}
+        |> Iugu.Request.get(__MODULE__, :collection)
       end
 
       def list(params) when is_map(params) do
@@ -35,8 +36,23 @@ defmodule Iugu.Resource do
   def define_action(:show) do
     quote do
       def show(id) do
-        %Iugu.Request{params: %{id: id}}
-        |> Iugu.get("#{@resource}/#{id}", __MODULE__, :single)
+        %Iugu.Request{path: "#{@resource}/#{id}", params: %{id: id}}
+        |> Iugu.Request.get(__MODULE__, :single)
+      end
+    end
+  end
+
+  def define_action(:create) do
+    quote do
+      def create(%{} = data) do
+        case Poison.encode(data) do
+          {:ok, json} ->
+            %Iugu.Request{path: @resource, body: json}
+            |> Iugu.Request.post(__MODULE__)
+
+          {status, result} ->
+            {status, result}
+        end
       end
     end
   end

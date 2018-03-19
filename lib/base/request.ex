@@ -4,29 +4,45 @@ defmodule Iugu.Request do
   """
 
   import Application, only: [get_env: 2]
-  alias Iugu.Request
+
+  alias Iugu.{Request,Parser}
 
   defstruct [
     :api_token,
     api_key: get_env(:iugu, :api_key),
     api_version: get_env(:iugu, :api_version),
     domain: get_env(:iugu, :domain),
-    params: %{}
+    path: "",
+    params: %{},
+    body: %{}
   ]
 
-  def build_url(%Request{} = request, path) do
-    [request.domain, request.api_version, path]
+  def get(%Request{params: params} = request, module, kind) do
+    build_url(request)
+    |> HTTPoison.get(build_headers(request), params: params)
+    |> Parser.parse_response(module, kind)
+  end
+
+  def post(%Request{body: body} = request, module) do
+    build_url(request)
+    |> HTTPoison.post(body, build_headers(request))
+    |> Parser.parse_response(module, :single)
+  end
+
+  defp build_url(%Request{} = request) do
+    [request.domain, request.api_version, request.path]
     |> Enum.join("/")
   end
 
-  def build_headers(%Request{} = request) do
+  defp build_headers(%Request{} = request) do
     [
-      "Authorization": "Basic #{Request.generate_basic_token(request)}",
-      "Accept": "Application/json; Charset=utf-8"
+      "Authorization": "Basic #{generate_basic_token(request)}",
+      "Accept": "application/json; Charset=utf-8",
+      "Content-Type": "application/json"
     ]
   end
 
-  def generate_basic_token(%Request{api_key: api_key}) do
+  defp generate_basic_token(%Request{api_key: api_key}) do
     Base.url_encode64(api_key <> ":", padding: false)
   end
 end
