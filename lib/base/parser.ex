@@ -16,11 +16,7 @@ defmodule Iugu.Parser do
     body |> Poison.decode(as: module.__struct__, keys: :atoms)
   end
 
-  def parse_response({:ok, %Response{body: body, status_code: 404}}, _module, :single) do
-    body |> Poison.Parser.parse(keys: :atoms)
-  end
-
-  def parse_response({:ok, %Response{body: body, status_code: 422}}, _module, :single) do
+  def parse_response({:ok, %Response{body: body, status_code: code}}, _module, :single) do
     body |> Poison.Parser.parse(keys: :atoms)
   end
 
