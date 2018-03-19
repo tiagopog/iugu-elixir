@@ -1,4 +1,4 @@
-defmodule Iugu.Subscripion do
+defmodule Iugu.Subscription do
   @moduledoc """
   Iugu's subscription resource
   """
