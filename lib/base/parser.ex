@@ -1,6 +1,6 @@
 defmodule Iugu.Parser do
   @moduledoc """
-  TODO
+  Parse Iugu's responses into resource structs or errors.
   """
 
   alias HTTPoison.Response

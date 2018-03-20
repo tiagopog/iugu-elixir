@@ -1,6 +1,6 @@
 defmodule Iugu.Resource do
   @moduledoc """
-  TODO
+  Mixin module to easily include all the common functionality across the resources.
   """
 
   defmacro __using__([name: resource, actions: actions]) do
@@ -12,11 +12,13 @@ defmodule Iugu.Resource do
     end
   end
 
+  @spec define_actions(list) :: list
   def define_actions(actions) do
     actions
     |> Enum.map(fn(action) -> define_action(action) end)
   end
 
+  @spec define_action(atom) :: {atom, list, list}
   def define_action(:list) do
     quote do
       @spec list(Iugu.Request.t | map) :: Iugu.Request.get_response

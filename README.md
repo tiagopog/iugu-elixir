@@ -27,105 +27,72 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
 ## Endpoint Coverage
 
-- [ ] Accounts
-  - [ ] Financial Statement
-  - [ ] Invoice Statement
-- [ ] API Tokens
-  - [ ] Renew Access Token
-  - [x] Create API Token
-  - [ ] Remove API Token
-  - [ ] List API Tokens
-- [ ] Chargebacks
-  - [ ] Contest Chargeback
-  - [ ] Accept Chargeback
-  - [ ] Show Chargeback
-  - [ ] List Chargebacks
-- [ ] Customers
-  - [ ] Create Customer
-  - [ ] Update Customer
-  - [ ] Remove Customer
-  - [ ] Show Customer
-  - [x] List Customers
-- [ ] Emails
-  - [ ] List Available Email Identifiers
-  - [ ] Show Default Layout
-  - [ ] Preview Email
-  - [ ] Send Test Email
-  - [ ] Create Email
-  - [ ] Update Email
-  - [ ] Remove Email
-  - [ ] Show Email
-  - [ ] List Emails
-- [ ] Financial Transaction Requests
-  - [ ] List Receivables
-  - [ ] Simulate Anticipation of Receivables
-  - [ ] Anticipate Receivables
-- [ ] Invoices
-  - [ ] Create Invoice
-  - [ ] Capture Invoice
-  - [ ] Refund Invoice
-  - [ ] Cancel Invoice
-  - [ ] Update Invoice
-  - [ ] Remove Invoice
-  - [ ] Show Invoice
-  - [ ] List Invoices
-- [ ] Marketplaces
-  - [ ] Create Account
-  - [ ] Send Account Verification
-  - [ ] Account Information
-  - [ ] Account Configuration
-  - [ ] Add Bank Verification
-  - [ ] Show Bank Verification
-  - [ ] Request Withdraw
-  - [ ] List Accounts
-- [ ] Payment Methods
-  - [ ] Create Payment Method
-  - [ ] Update Payment Method
-  - [ ] Remove Payment Method
-  - [ ] Show Payment Method
-  - [ ] List Payment Methods
-- [ ] Plans
-  - [ ] Create Plan
-  - [ ] Update Plan
-  - [ ] Remove Plan
-  - [ ] Show Plan
-  - [ ] Search Plan by Identifier
-  - [ ] List Plans
-- [ ] Subscriptions
-  - [ ] Create Subscription
-  - [ ] Activate Subscription
-  - [ ] Suspend Subscription
-  - [ ] Update Subscription
-  - [ ] Simulate Subscription Plan Change
-  - [ ] Update Subscription Plan
-  - [ ] Add Credits to Subscription
-  - [ ] Remove Credits from Subscription
-  - [ ] Remove Subscription
-  - [ ] Show Subscription
-  - [ ] List Subscriptions
-- [ ] Transfers
-  - [ ] Transfer Value
-  - [ ] Show Transfers
-  - [ ] List Transfers
-- [ ] Web Hooks
-  - [ ] List Supported Events
-  - [ ] Create Web Hook
-  - [ ] Update Web Hook
-  - [ ] Remove Web Hook
-  - [ ] Show Web Hook
-  - [ ] List Web Hooks
-- [ ] Withdraw Requests
-  - [ ] Show Withdraw Request
-  - [ ] List Withdraw Requests
+Check which endpoints are already covered on the [Endpoint Coverage](https://github.com/b2beauty/iugu-elixir/wiki/Endpoint-Coverage) wiki page.
 
 ## Usage
 
-### Customer
+### Credentials
 
-#### List
+1. Get your [Iugu's API KEY](https://dev.iugu.com/v1.0/reference#autentica%C3%A7%C3%A3o);
+
+2.1. Set the key on your project's config file:
+
+Directly:
 
 ```elixir
-request = %Iugu.Request{api_key: "YOUR_API_KEY"}
-Iugu.Customer.list(request)
+# config/config.exs
+config :iugu,
+  api_key: "foobar"
+```
+
+Or export the key to your environment and access it via `System.get_env/1` (recommended):
+
+```sh
+# .env
+IUGU_API_KEY=foobar
+```
+
+```elixir
+# config/config.exs
+config :iugu,
+  api_key: System.get_env("IUGU_API_KEY"),
+```
+
+This way you can call the resource actions with no need to pass the `%Iugu.Resource{}` as argument:
+
+```elixir
+Iugu.Customer.list() #=> {:ok, [...], 42}
+```
+
+2.2. It's also possible to set the key into a `%Iugu.Request{}` struct:
+
+```elixir
+%Iugu.Request{api_key: "foobar"} |> Iugu.Customer.list()
+```
+
+### Common Actions
+
+The CRUD actions are present in almost all the resources. Here's an usage example for those actions with the "customers" resource:
+
+##### Create
+
+```elixir
+%Iugu.Customer{name: "Foobar", email: "foo@bar.com"} |> Iugu.Customer.create()
+#=> {:ok, %Iugu.Customer{cc_emails: nil, city: "Campo Mourão", complement: "Cobertura", ...}}
+```
+
+##### Show
+
+```elixir
+Iugu.Customer.show("6DB324B6859D4D46A3B8689AC745A943")
+#=> {:ok, %Iugu.Customer{cc_emails: nil, city: "Campo Mourão", complement: "Cobertura", ...}}
+```
+
+##### List
+
+```elixir
+Iugu.Customer.list()
 #=> {:ok, [%Iugu.Customer{cc_emails: nil, city: "Campo Mourão", complement: "Cobertura", ...}], 128}
 ```
+
+For more usage examples, please check the [Usage](https://github.com/b2beauty/iugu-elixir/wiki/Usage) wiki page.

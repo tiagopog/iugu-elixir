@@ -1,5 +1,5 @@
 defmodule Iugu do
   @moduledoc """
-  TODO
+  Namespace for Iugu's Elixir Client
   """
 end

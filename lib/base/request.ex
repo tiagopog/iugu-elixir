@@ -1,6 +1,6 @@
 defmodule Iugu.Request do
   @moduledoc """
-  TODO
+  Handle request data and call the Iugu's API.
   """
 
   import Application, only: [get_env: 2]
