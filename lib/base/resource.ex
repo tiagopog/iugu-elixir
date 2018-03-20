@@ -19,6 +19,7 @@ defmodule Iugu.Resource do
 
   def define_action(:list) do
     quote do
+      @spec list(Iugu.Request.t | map) :: Iugu.Request.get_response
       def list(params \\ %{})
 
       def list(%Iugu.Request{} = request) do
@@ -35,6 +36,7 @@ defmodule Iugu.Resource do
 
   def define_action(:show) do
     quote do
+      @spec show(String.t) :: Iugu.Request.get_response
       def show(id) do
         %Iugu.Request{path: "#{@resource}/#{id}"}
         |> Iugu.Request.get(__MODULE__, :single)
@@ -44,6 +46,7 @@ defmodule Iugu.Resource do
 
   def define_action(:create) do
     quote do
+      @spec create(map) :: Iugu.Request.post_response
       def create(%{} = data) do
         case Poison.encode(data) do
           {:ok, json} ->
@@ -57,6 +60,7 @@ defmodule Iugu.Resource do
     end
   end
 
+  @spec fields(String.t) :: list
   def fields(resource) do
     Application.get_env(:iugu, String.to_atom(resource))
   end

@@ -19,26 +19,32 @@ defmodule Iugu.Request do
 
   @typedoc "Iugu's request data"
   @type t :: %Iugu.Request{
-    api_token: (nil | String.t),
-    api_key: (nil | String.t),
-    api_version: (nil | String.t),
-    domain: (nil | String.t),
+    api_token: nil | String.t,
+    api_key: nil | String.t,
+    api_version: nil | String.t,
+    domain: nil | String.t,
     path: String.t,
     params: map,
     body: String.t
   }
 
-  @typedoc "Expected data cardinality from response"
-  @type cardinality :: (:single | :collection)
+  @typedoc "Iugu's response for GET endpoints"
+  @type get_response :: {:ok, [struct], number} | {:ok, struct | %{errors: String.t}}
 
-  @spec get(Iugu.Request.t, module, cardinality) :: {:ok, [struct], number}
-  def get(%{params: params} = request, module, cardinality) do
+  @typedoc "Iugu's response for POST endpoints"
+  @type post_response :: {:ok, struct | %{errors: map}}
+
+  @typedoc "Expected data cardinality from response"
+  @type cardinality :: :single | :collection
+
+  @spec get(Iugu.Request.t, module, cardinality) :: get_response
+  def get(%Request{params: params} = request, module, cardinality) do
     build_url(request)
     |> HTTPoison.get(build_headers(request), params: params)
     |> Parser.parse_response(module, cardinality)
   end
 
-  @spec post(Iugu.Request.t, module) :: {:ok, struct}
+  @spec post(Iugu.Request.t, module) :: post_response
   def post(%Request{body: body} = request, module) do
     build_url(request)
     |> HTTPoison.post(body, build_headers(request))
