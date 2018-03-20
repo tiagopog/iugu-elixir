@@ -2,12 +2,15 @@ defmodule Iugu.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :iugu,
-     version: "0.1.0",
-     elixir: "~> 1.3",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :iugu,
+      version: "0.1.0",
+      elixir: "~> 1.3",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      deps: deps(),
+      dialyzer: [plt_add_deps: :project, plt_add_apps: [:httpoison]]
+    ]
   end
 
   # Configuration for the OTP application
@@ -29,7 +32,8 @@ defmodule Iugu.Mixfile do
   defp deps do
     [
       {:httpoison, "~> 0.13"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
     ]
   end
 end

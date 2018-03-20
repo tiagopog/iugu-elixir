@@ -14,34 +14,53 @@ defmodule Iugu.Request do
     domain: get_env(:iugu, :domain),
     path: "",
     params: %{},
-    body: %{}
+    body: ""
   ]
 
-  def get(%Request{params: params} = request, module, kind) do
+  @typedoc "Iugu's request data"
+  @type t :: %Iugu.Request{
+    api_token: (nil | String.t),
+    api_key: (nil | String.t),
+    api_version: (nil | String.t),
+    domain: (nil | String.t),
+    path: String.t,
+    params: map,
+    body: String.t
+  }
+
+  @typedoc "Expected data cardinality from response"
+  @type cardinality :: (:single | :collection)
+
+  @spec get(Iugu.Request.t, module, cardinality) :: {:ok, [struct], number}
+  def get(%{params: params} = request, module, cardinality) do
     build_url(request)
     |> HTTPoison.get(build_headers(request), params: params)
-    |> Parser.parse_response(module, kind)
+    |> Parser.parse_response(module, cardinality)
   end
 
+  @spec post(Iugu.Request.t, module) :: {:ok, struct}
   def post(%Request{body: body} = request, module) do
     build_url(request)
     |> HTTPoison.post(body, build_headers(request))
     |> Parser.parse_response(module, :single)
   end
 
+  @spec build_url(Iugu.Request.t) :: String.t
   defp build_url(%Request{} = request) do
     [request.domain, request.api_version, request.path]
     |> Enum.join("/")
   end
 
+  @spec build_headers(Iugu.Request.t) :: [tuple]
   defp build_headers(%Request{} = request) do
     [
-      "Authorization": "Basic #{generate_basic_token(request)}",
-      "Accept": "application/json; Charset=utf-8",
-      "Content-Type": "application/json"
+      {"Authorization", "Basic #{generate_basic_token(request)}"},
+      {"Accept", "application/json; Charset=utf-8"},
+      {"Content-Type", "application/json"}
     ]
   end
 
+  @spec generate_basic_token(Iugu.Request.t) :: String.t
   defp generate_basic_token(%Request{api_key: api_key}) do
     Base.url_encode64(api_key <> ":", padding: false)
   end

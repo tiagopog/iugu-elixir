@@ -36,7 +36,7 @@ defmodule Iugu.Resource do
   def define_action(:show) do
     quote do
       def show(id) do
-        %Iugu.Request{path: "#{@resource}/#{id}", params: %{id: id}}
+        %Iugu.Request{path: "#{@resource}/#{id}"}
         |> Iugu.Request.get(__MODULE__, :single)
       end
     end

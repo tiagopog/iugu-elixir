@@ -1,6 +1,6 @@
 defmodule Iugu.Customer do
   @moduledoc """
-  Iugu Customer resource
+  Iugu's customer resource
   """
 
   use Iugu.Resource,
