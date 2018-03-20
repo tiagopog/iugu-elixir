@@ -8,8 +8,8 @@ defmodule Iugu.Parser do
   @spec parse_response({:ok, HTTPoison.Response.t}, module, Iugu.Request.cardinality) ::
           {:ok, list, integer} | {:ok, struct | map}
   def parse_response({:ok, %Response{body: body, status_code: 200}}, module, :collection) do
-    case body |> Poison.decode(as: %{"items" => [module.__struct__]}, keys: :atoms) do
-      {:ok, %{items: items, totalItems: count}} -> {:ok, items, count}
+    case body |> Poison.decode(as: %{"items" => [module.__struct__]}) do
+      {:ok, %{"items" => items, "totalItems" => count}} -> {:ok, items, count}
       {status, result} -> {status, result}
     end
   end
