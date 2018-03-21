@@ -10,66 +10,70 @@ wiki page for more details.
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
 
-  1. Add `iugu` to your list of dependencies in `mix.exs`:
+1. Add `iugu` to your list of dependencies in `mix.exs`:
 
-    ```elixir
-    def deps do
-      [{:iugu, "~> 0.1.0"}]
-    end
-    ```
+```elixir
+def deps do
+  [{:iugu, "~> 0.1.0"}]
+ end
+```
 
-  2. Ensure `iugu` is started before your application:
+2. Ensure `iugu` is started before your application:
 
-    ```elixir
-    def application do
-      [applications: [:iugu]]
-    end
-    ```
+```elixir
+def application do
+  [applications: [:iugu]]
+end
+```
 
 ## Usage
 
 ### Credentials
 
-  1. Get your [Iugu's API KEY](https://dev.iugu.com/v1.0/reference#autentica%C3%A7%C3%A3o);
+1. Get your [Iugu's API KEY](https://dev.iugu.com/v1.0/reference#autentica%C3%A7%C3%A3o);
 
-  2.1. Set the key on your project's config file:
+2. Set the key on your project:
 
-  Directly:
+#### Via config
 
-  ```elixir
-  # config/config.exs
-  config :iugu,
-    api_key: "foobar"
-  ```
+Directly:
 
-  Or export the key to your environment and access it via `System.get_env/1` (recommended):
+```elixir
+# config/config.exs
+config :iugu,
+  api_key: "foobar"
+```
 
-  ```sh
-  # .env
-  IUGU_API_KEY=foobar
-  ```
+Or export the key to your environment and access it via `System.get_env/1` (recommended):
 
-  ```elixir
-  # config/config.exs
-  config :iugu,
-    api_key: System.get_env("IUGU_API_KEY")
-  ```
+```sh
+# .env
+IUGU_API_KEY=foobar
+```
 
-  This way you can call the resource actions with no need to pass the `%Iugu.Resource{}` as argument:
+```elixir
+# config/config.exs
+config :iugu,
+  api_key: System.get_env("IUGU_API_KEY")
+```
 
-  ```elixir
-  Iugu.Customer.list() #=> {:ok, [...], 42}
-  ```
+This way you can call the resource actions with no need to pass the `%Iugu.Resource{}` as argument:
 
-  2.2. It's also possible to set the key into a `%Iugu.Request{}` struct:
+```elixir
+Iugu.Customer.list() #=> {:ok, [...], 42}
+```
+
+#### Via struct
+
+It's also possible to set the key into a `%Iugu.Request{}` struct:
 
   ```elixir
   %Iugu.Request{api_key: "foobar"} |> Iugu.Customer.list()
   ```
 
-### Common Actions
+### Resources
 
-The CRUD actions are present in almost all the resources. Here's an usage example for those actions with the "customers" resource:
+The CRUD actions are present in almost all the resources, here's an example for "customers":
 
 ##### Create
 
