@@ -78,21 +78,21 @@ The CRUD actions are present in almost all the resources. Here's an usage exampl
 
 ```elixir
 %Iugu.Customer{name: "Foobar", email: "foo@bar.com"} |> Iugu.Customer.create()
-#=> {:ok, %Iugu.Customer{cc_emails: nil, city: "Campo Mourão", complement: "Cobertura", ...}}
+#=> {:ok, %Iugu.Customer{name: "Foobar", email: "foo@bar.com",...}}
 ```
 
 ##### Show
 
 ```elixir
 Iugu.Customer.show("6DB324B6859D4D46A3B8689AC745A943")
-#=> {:ok, %Iugu.Customer{cc_emails: nil, city: "Campo Mourão", complement: "Cobertura", ...}}
+#=> {:ok, %Iugu.Customer{cc_emails: nil, city: "Campo Mourão", complement: "Cobertura",...}}
 ```
 
 ##### List
 
 ```elixir
 Iugu.Customer.list()
-#=> {:ok, [%Iugu.Customer{cc_emails: nil, city: "Campo Mourão", complement: "Cobertura", ...}], 128}
+#=> {:ok, [%Iugu.Customer{cc_emails: nil, city: "Campo Mourão", complement: "Cobertura",...}], 128}
 ```
 
 For more usage examples, please check the [Usage](https://github.com/b2beauty/iugu-elixir/wiki/Usage) wiki page.

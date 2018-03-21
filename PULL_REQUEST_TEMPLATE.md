@@ -5,7 +5,7 @@ Closes #9999
 
 Adds the `Foobar` module to the project.
 
-## Contexto
+## Context
 
 The "Foobar" feature requires the creation of the `Foobar` module so it can be properly operated.
 
@@ -25,12 +25,8 @@ foobar = Foobar.new
 foobar.call.sucess? #=> true
 ```
 
-## Screenshots
-
-N/A
-
 ## Questions
 
-**1. Does this PR break somewhere on backward compatibility?**
+**1. Does this PR break some backward compatibility?**
 
 No.
