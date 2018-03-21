@@ -1,9 +1,10 @@
 # Iugu
 
-Elixir library for working with the [Iugu REST API](https://dev.iugu.com/v1.0).
+Elixir client library to work with the [Iugu's REST API](https://dev.iugu.com/v1.0).
 
 Since the lib is still in its early days one may find some missing endpoints,
-so please check the [Endpoint Coverage](#endpoint-coverage) section for more details.
+so please check the [Endpoint Coverage](https://github.com/b2beauty/iugu-elixir/wiki/Endpoint-Coverage)
+wiki page for more details.
 
 ## Installation
 
@@ -25,50 +26,46 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
     end
     ```
 
-## Endpoint Coverage
-
-Check which endpoints are already covered on the [Endpoint Coverage](https://github.com/b2beauty/iugu-elixir/wiki/Endpoint-Coverage) wiki page.
-
 ## Usage
 
 ### Credentials
 
-1. Get your [Iugu's API KEY](https://dev.iugu.com/v1.0/reference#autentica%C3%A7%C3%A3o);
+  1. Get your [Iugu's API KEY](https://dev.iugu.com/v1.0/reference#autentica%C3%A7%C3%A3o);
 
-2.1. Set the key on your project's config file:
+  2.1. Set the key on your project's config file:
 
-Directly:
+  Directly:
 
-```elixir
-# config/config.exs
-config :iugu,
-  api_key: "foobar"
-```
+  ```elixir
+  # config/config.exs
+  config :iugu,
+    api_key: "foobar"
+  ```
 
-Or export the key to your environment and access it via `System.get_env/1` (recommended):
+  Or export the key to your environment and access it via `System.get_env/1` (recommended):
 
-```sh
-# .env
-IUGU_API_KEY=foobar
-```
+  ```sh
+  # .env
+  IUGU_API_KEY=foobar
+  ```
 
-```elixir
-# config/config.exs
-config :iugu,
-  api_key: System.get_env("IUGU_API_KEY"),
-```
+  ```elixir
+  # config/config.exs
+  config :iugu,
+    api_key: System.get_env("IUGU_API_KEY")
+  ```
 
-This way you can call the resource actions with no need to pass the `%Iugu.Resource{}` as argument:
+  This way you can call the resource actions with no need to pass the `%Iugu.Resource{}` as argument:
 
-```elixir
-Iugu.Customer.list() #=> {:ok, [...], 42}
-```
+  ```elixir
+  Iugu.Customer.list() #=> {:ok, [...], 42}
+  ```
 
-2.2. It's also possible to set the key into a `%Iugu.Request{}` struct:
+  2.2. It's also possible to set the key into a `%Iugu.Request{}` struct:
 
-```elixir
-%Iugu.Request{api_key: "foobar"} |> Iugu.Customer.list()
-```
+  ```elixir
+  %Iugu.Request{api_key: "foobar"} |> Iugu.Customer.list()
+  ```
 
 ### Common Actions
 
