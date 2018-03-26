@@ -12,7 +12,7 @@ defmodule Iugu.Request do
 
   defstruct [
     :api_token,
-    api_key: get_env(:iugu, :api_key),
+    :api_key,
     api_version: get_env(:iugu, :api_version) || @api_version,
     domain: get_env(:iugu, :domain) || @domain,
     path: "",
@@ -61,20 +61,19 @@ defmodule Iugu.Request do
   end
 
   @spec build_headers(Iugu.Request.t) :: [tuple]
-  def build_headers(%Request{} = request) do
+  def build_headers(%Request{api_key: api_key}) do
+    basic_token =
+      (api_key || get_env(:iugu, :api_key))
+      |> generate_basic_token()
+
     [
-      {"Authorization", "Basic #{generate_basic_token(request)}"},
+      {"Authorization", "Basic #{basic_token}"},
       {"Accept", "application/json; Charset=utf-8"},
       {"Content-Type", "application/json"}
     ]
   end
 
-  @spec generate_basic_token(Iugu.Request.t) :: String.t
-  def generate_basic_token(%Request{api_key: api_key}) when is_nil(api_key) do
-    ""
-  end
-
-  def generate_basic_token(%Request{api_key: api_key}) do
-    Base.url_encode64(api_key <> ":", padding: false)
-  end
+  @spec generate_basic_token(String.t) :: String.t
+  def generate_basic_token(nil),     do: ""
+  def generate_basic_token(api_key), do: Base.url_encode64(api_key <> ":", padding: false)
 end
