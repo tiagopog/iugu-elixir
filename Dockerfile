@@ -1,4 +1,4 @@
-FROM elixir:1.5.2
+FROM elixir:1.6.0
 
 ENV APP=/home
 WORKDIR $APP

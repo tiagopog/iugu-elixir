@@ -3,11 +3,11 @@ defmodule Iugu.Resource do
   Mixin module to easily include all the common functionality across the resources.
   """
 
-  defmacro __using__([name: resource, actions: actions]) do
+  defmacro __using__([name: resource, actions: actions, fields: fields]) do
     quote do
       @derive [Poison.Encoder]
       @resource unquote(resource)
-      defstruct unquote(fields(resource))
+      defstruct unquote([:id, :created_at, :updated_at] ++ fields)
       Module.eval_quoted(__MODULE__, unquote(define_actions(actions)), [], __ENV__)
     end
   end
