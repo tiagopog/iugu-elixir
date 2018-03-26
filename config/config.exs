@@ -4,6 +4,6 @@ use Mix.Config
 
 # The following config keys can be app-level overriden if needed:
 config :iugu,
-  api_key: nil,
+  api_key: System.get_env("IUGU_API_KEY"),
   api_version: nil,
   domain: nil
