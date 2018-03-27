@@ -5,8 +5,10 @@ defmodule Iugu.Parser do
 
   alias HTTPoison.Response
 
-  @spec parse_response({:ok, HTTPoison.Response.t}, module, Iugu.Request.cardinality) ::
-          {:ok, list, integer} | {:ok, struct | map}
+  @typedoc "Collection or single record parsed from Iugu's API response"
+  @type parsed_response :: {:ok, list, integer} | {:ok, struct | map}
+
+  @spec parse_response({:ok, HTTPoison.Response.t}, module, Iugu.Request.cardinality) :: parsed_response
   def parse_response({:ok, %Response{body: body, status_code: 200}}, module, :collection) do
     case body |> Poison.decode(as: %{"items" => [module.__struct__]}) do
       {:ok, %{"items" => items, "totalItems" => count}} -> {:ok, items, count}
@@ -14,11 +16,11 @@ defmodule Iugu.Parser do
     end
   end
 
-  def parse_response({:ok, %Response{body: body, status_code: 200}}, module, :single) do
+  def parse_response({:ok, %Response{body: body, status_code: code}}, module, :single) when code in [200, 201] do
     body |> Poison.decode(as: module.__struct__, keys: :atoms)
   end
 
-  def parse_response({:ok, %Response{body: body, status_code: _code}}, _module, :single) do
+  def parse_response({:ok, %Response{body: body, status_code: _code}}, _module, _cardinality) do
     body |> Poison.Parser.parse(keys: :atoms)
   end
 

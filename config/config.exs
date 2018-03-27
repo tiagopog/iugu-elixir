@@ -2,8 +2,9 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-# The following config keys can be app-level overriden if needed:
+# The following config keys can be
+# app-level overriden if required:
 config :iugu,
-  api_key: nil,
+  api_key: System.get_env("IUGU_API_KEY"),
   api_version: nil,
   domain: nil
