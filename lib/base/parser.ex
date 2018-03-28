@@ -16,11 +16,15 @@ defmodule Iugu.Parser do
     end
   end
 
-  def parse_response({:ok, %Response{body: body, status_code: code}}, module, :single) when code in [200, 201] do
+  def parse_response({:ok, %Response{body: body, status_code: status}}, module, :single) when status in [200, 201] do
     body |> Poison.decode(as: module.__struct__, keys: :atoms)
   end
 
-  def parse_response({:ok, %Response{body: body, status_code: _code}}, _module, _cardinality) do
+  def parse_response({:ok, %Response{body: body, status_code: 500}}, _module, _cardinality) do
+    parse_response({:error, 500})
+  end
+
+  def parse_response({:ok, %Response{body: body, status_code: _status}}, _module, _cardinality) do
     body |> Poison.Parser.parse(keys: :atoms)
   end
 
