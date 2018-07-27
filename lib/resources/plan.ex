@@ -15,4 +15,3 @@ defmodule Iugu.Plan do
       :features
     ]
 end
-

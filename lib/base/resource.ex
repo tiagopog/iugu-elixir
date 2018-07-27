@@ -3,7 +3,7 @@ defmodule Iugu.Resource do
   Mixin module to easily include all the common functionality across the resources.
   """
 
-  defmacro __using__([name: resource, actions: actions, fields: fields]) do
+  defmacro __using__(name: resource, actions: actions, fields: fields) do
     quote do
       @derive [Poison.Encoder]
       @resource unquote(resource)
@@ -13,15 +13,17 @@ defmodule Iugu.Resource do
   end
 
   @spec define_actions(list) :: list
+  @doc false
   def define_actions(actions) do
     actions
-    |> Enum.map(fn(action) -> define_action(action) end)
+    |> Enum.map(fn action -> define_action(action) end)
   end
 
   @spec define_action(atom) :: {atom, list, list}
+  @doc false
   def define_action(:list) do
     quote do
-      @spec list(Iugu.Request.t | map) :: Iugu.Request.get_response
+      @spec list(Iugu.Request.t() | map) :: Iugu.Request.get_response()
       def list(params \\ %{})
 
       def list(%Iugu.Request{} = request) do
@@ -36,9 +38,13 @@ defmodule Iugu.Resource do
     end
   end
 
+  @doc false
   def define_action(:show) do
     quote do
-      @spec show(String.t) :: Iugu.Request.get_response
+      @spec show(String.t()) :: Iugu.Request.get_response()
+      @doc """
+      Returns a #{__MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")}
+      """
       def show(id) do
         %Iugu.Request{path: "#{@resource}/#{id}"}
         |> Iugu.Request.get(__MODULE__, :single)
@@ -46,9 +52,18 @@ defmodule Iugu.Resource do
     end
   end
 
+  @doc false
   def define_action(:create) do
     quote do
-      @spec create(map) :: Iugu.Request.post_response
+      @spec create(map) :: Iugu.Request.post_response()
+      @doc """
+      Creates a #{__MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")}
+
+      ## Parameters
+        - data: Map with attributes to create a #{
+        __MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")
+      }
+      """
       def create(%{} = data) do
         case Poison.encode(data) do
           {:ok, json} ->

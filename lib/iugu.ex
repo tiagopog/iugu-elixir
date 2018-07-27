@@ -1,5 +1,3 @@
 defmodule Iugu do
-  @moduledoc """
-  Namespace for Iugu's Elixir Client
-  """
+  @moduledoc false
 end

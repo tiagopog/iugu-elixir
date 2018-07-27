@@ -3,18 +3,15 @@ defmodule Iugu.Request do
   Handle request data and call the Iugu's API.
   """
 
-  @domain "https://api.iugu.com"
-  @api_version "v1"
-
   import Application, only: [get_env: 2]
 
-  alias Iugu.{Request,Parser}
+  alias Iugu.{Request, Parser}
 
   defstruct [
-    :api_token,
-    :api_key,
-    api_version: get_env(:iugu, :api_version) || @api_version,
-    domain: get_env(:iugu, :domain) || @domain,
+    api_token: nil,
+    api_key: nil,
+    api_version: get_env(:iugu, :api_version) || "v1",
+    domain: get_env(:iugu, :domain) || "https://api.iugu.com",
     path: "",
     params: %{},
     body: ""
@@ -22,17 +19,17 @@ defmodule Iugu.Request do
 
   @typedoc "Iugu's request data"
   @type t :: %Iugu.Request{
-    api_token: nil | String.t,
-    api_key: nil | String.t,
-    api_version: nil | String.t,
-    domain: nil | String.t,
-    path: String.t,
-    params: map,
-    body: String.t
-  }
+          api_token: nil | String.t(),
+          api_key: nil | String.t(),
+          api_version: nil | String.t(),
+          domain: nil | String.t(),
+          path: String.t(),
+          params: map,
+          body: String.t()
+        }
 
   @typedoc "Iugu's response for GET endpoints"
-  @type get_response :: {:ok, [struct], number} | {:ok, struct | %{errors: String.t}}
+  @type get_response :: {:ok, [struct], number} | {:ok, struct | %{errors: String.t()}}
 
   @typedoc "Iugu's response for POST endpoints"
   @type post_response :: {:ok, struct | %{errors: map}}
@@ -40,16 +37,31 @@ defmodule Iugu.Request do
   @typedoc "Expected data cardinality from response"
   @type cardinality :: :single | :collection
 
-  @spec get(Iugu.Request.t, module, cardinality) :: get_response
+  @spec get(Iugu.Request.t(), module, cardinality) :: get_response
+  @doc """
+  ## Parameters
+
+    - request: A `%Iugu.Request{}`
+    - module: the module to parse the result
+    - cardinality: `:single` or `:collection` to parse result as a list or single item
+  """
   def get(%Request{params: params} = request, module, cardinality) do
-    build_url(request)
+    request
+    |> build_url()
     |> HTTPoison.get(build_headers(request), params: params)
     |> Parser.parse_response(module, cardinality)
   end
 
-  @spec post(Iugu.Request.t, module) :: post_response
+  @spec post(Iugu.Request.t(), module) :: post_response
+  @doc """
+  ## Parameters
+
+    - request: A `%Iugu.Request{}`
+    - module: the module to parse the result
+  """
   def post(%Request{body: body} = request, module) do
-    build_url(request)
+    request
+    |> build_url()
     |> HTTPoison.post(body, build_headers(request))
     |> Parser.parse_response(module, :single)
   end
@@ -60,8 +72,8 @@ defmodule Iugu.Request do
     |> Enum.join("/")
   end
 
-  @spec build_headers(Iugu.Request.t) :: [tuple]
-  def build_headers(%Request{api_key: api_key}) do
+  @spec build_headers(Iugu.Request.t()) :: [tuple]
+  defp build_headers(%Request{api_key: api_key}) do
     [
       {"Authorization", "Basic #{generate_basic_token(api_key)}"},
       {"Accept", "application/json; Charset=utf-8"},
@@ -69,13 +81,12 @@ defmodule Iugu.Request do
     ]
   end
 
-  @spec generate_basic_token(String.t | nil) :: String.t
-  def generate_basic_token(nil) do
+  @spec generate_basic_token(String.t() | nil) :: String.t()
+  defp generate_basic_token(nil) do
     generate_basic_token(get_env(:iugu, :api_key) || "")
   end
 
-  def generate_basic_token(api_key) when is_binary(api_key) do
+  defp generate_basic_token(api_key) when is_binary(api_key) do
     Base.url_encode64(api_key <> ":", padding: false)
   end
 end
-
