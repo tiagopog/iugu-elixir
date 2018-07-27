@@ -9,7 +9,15 @@ defmodule Iugu.Mixfile do
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps(),
-      dialyzer: [plt_add_deps: :project, plt_add_apps: [:httpoison]]
+      dialyzer: [plt_add_deps: :project, plt_add_apps: [:httpoison]],
+      # Docs
+      name: "Iugu",
+      source_url: "https://github.com/tiagopog/iugu-elixir",
+      homepage_url: "https://github.com/tiagopog/iugu-elixir",
+      docs: [
+        main: "README",
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -33,7 +41,9 @@ defmodule Iugu.Mixfile do
     [
       {:httpoison, "~> 1.0"},
       {:poison, "~> 3.1"},
-      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+      {:ex_doc, "~> 0.19.0", only: :dev, runtime: false},
+      {:exvcr, "~> 0.10", only: [:dev, :test]}
     ]
   end
 end
