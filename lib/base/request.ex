@@ -34,6 +34,12 @@ defmodule Iugu.Request do
   @typedoc "Iugu's response for POST endpoints"
   @type post_response :: {:ok, struct | %{errors: map}}
 
+  @typedoc "Iugu's response for PUT endpoints"
+  @type put_response :: {:ok, struct | %{errors: map}}
+
+  @typedoc "Iugu's response for DELETE endpoints"
+  @type delete_response :: {:ok, struct | %{errors: map}}
+
   @typedoc "Expected data cardinality from response"
   @type cardinality :: :single | :collection
 
@@ -66,7 +72,35 @@ defmodule Iugu.Request do
     |> Parser.parse_response(module, :single)
   end
 
-  @spec build_url(Iugu.Request.t) :: String.t
+  @spec put(Iugu.Request.t(), module) :: put_response
+  @doc """
+  ## Parameters
+
+    - request: A `%Iugu.Request{}`
+    - module: the module to parse the result
+  """
+  def put(%Request{body: body} = request, module) do
+    request
+    |> build_url()
+    |> HTTPoison.put(body, build_headers(request))
+    |> Parser.parse_response(module, :single)
+  end
+
+  @spec delete(Iugu.Request.t(), module) :: delete_response
+  @doc """
+  ## Parameters
+
+    - request: A `%Iugu.Request{}`
+    - module: the module to parse the result
+  """
+  def delete(%Request{} = request, module) do
+    request
+    |> build_url()
+    |> HTTPoison.delete(build_headers(request))
+    |> Parser.parse_response(module, :single)
+  end
+
+  @spec build_url(Iugu.Request.t()) :: String.t()
   defp build_url(%Request{} = request) do
     [request.domain, request.api_version, request.path]
     |> Enum.join("/")

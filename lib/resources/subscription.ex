@@ -5,7 +5,7 @@ defmodule Iugu.Subscription do
 
   use Iugu.Resource,
     name: "subscriptions",
-    actions: [:list, :show, :create],
+    actions: [:list, :show, :create, :update, :delete],
     fields: [
       :bank_slip,
       :commission,

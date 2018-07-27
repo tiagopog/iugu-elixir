@@ -77,8 +77,46 @@ defmodule Iugu.Resource do
     end
   end
 
-  @spec fields(String.t) :: list
-  def fields(resource) do
-    Application.get_env(:iugu, String.to_atom(resource))
+  @doc false
+  def define_action(:update) do
+    quote do
+      @spec update(map, String.t()) :: Iugu.Request.put_response()
+      @doc """
+      Updates a #{__MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")}
+
+      ## Parameters
+        - data: Map with attributes to create a #{
+        __MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")
+      }
+        - id: ID of Iugu #{__MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")}
+      """
+      def update(%{} = data, id) do
+        case Poison.encode(data) do
+          {:ok, json} ->
+            %Iugu.Request{body: json, path: "#{@resource}/#{id}"}
+            |> Iugu.Request.put(__MODULE__)
+
+          {status, result} ->
+            {status, result}
+        end
+      end
+    end
+  end
+
+  @doc false
+  def define_action(:delete) do
+    quote do
+      @spec delete(String.t()) :: Iugu.Request.delete_response()
+      @doc """
+      Removes a #{__MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")}
+
+      ## Parameters
+        - id: ID of Iugu #{__MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")}
+      """
+      def delete(id) do
+        %Iugu.Request{path: "#{@resource}/#{id}"}
+        |> Iugu.Request.delete(__MODULE__)
+      end
+    end
   end
 end

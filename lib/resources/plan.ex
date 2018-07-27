@@ -5,7 +5,7 @@ defmodule Iugu.Plan do
 
   use Iugu.Resource,
     name: "plans",
-    actions: [:list, :show],
+    actions: [:list, :show, :delete],
     fields: [
       :name,
       :identifier,
