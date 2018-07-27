@@ -1,0 +1,39 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Authorization": "Basic dGVzdDo",
+        "Accept": "application/json; Charset=utf-8",
+        "Content-Type": "application/json"
+      },
+      "method": "get",
+      "options": [],
+      "request_body": "",
+      "url": "https://api.iugu.com/v1/plans?"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"totalItems\":1,\"items\":[{\"id\":\"1D7AAB19B41C47B3BC58F14EB0E42908\",\"name\":\"plano de teste\",\"identifier\":\"test_plan\",\"interval\":1,\"interval_type\":\"months\",\"created_at\":\"2018-07-25T12:43:17-03:00\",\"updated_at\":\"2018-07-25T12:43:17-03:00\",\"prices\":[{\"created_at\":\"2018-07-25T12:43:17-03:00\",\"currency\":\"BRL\",\"id\":\"0B8E20663D884E738ADAFB2B45319657\",\"updated_at\":\"2018-07-25T12:43:17-03:00\",\"value_cents\":1000}],\"features\":[{\"created_at\":\"2018-07-25T12:43:17-03:00\",\"id\":\"C3B4B06C12974CE7A27FD94059ACA8F3\",\"identifier\":\"fun1\",\"important\":null,\"name\":\"funcionalidade\",\"position\":1,\"updated_at\":\"2018-07-25T12:43:17-03:00\",\"value\":1}],\"payable_with\":\"credit_card\"}]}",
+      "headers": {
+        "Cache-Control": "must-revalidate, private, max-age=0",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 25 Jul 2018 15:43:34 GMT",
+        "ETag": "\"99f99273bd4c691e2917c7c1a640862e\"",
+        "Vary": "Origin",
+        "x-HandledBy": "api/v1/plan#index",
+        "X-Rack-Cache": "miss",
+        "X-Request-Id": "ae4baf719782f586a156962e1e82a457",
+        "X-Runtime": "0.037627",
+        "X-UA-Compatible": "IE=Edge,chrome=1",
+        "Content-Length": "658",
+        "Connection": "keep-alive",
+        "Set-Cookie": "visid_incap_1185448=1wfcRVFLRvS2mNS3xbVOLqaaWFsAAAAAQUIPAAAAAAALl2x56KwcTgV9CbkPL763; expires=Thu, 25 Jul 2019 12:11:55 GMT; path=/; Domain=.iugu.com",
+        "X-Iinfo": "14-41602684-41602744 NNNN CT(13 10 0) RT(1532533414187 170) q(0 0 0 -1) r(1 1) U5",
+        "X-CDN": "Incapsula"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]
