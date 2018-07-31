@@ -19,7 +19,7 @@ defmodule Iugu.PaymentMethod do
   @spec list(String.t()) :: Iugu.Request.get_response()
   def list(customer_id) do
     %Iugu.Request{path: "customers/#{customer_id}/payment_methods"}
-    |> Iugu.Request.get(__MODULE__, :collection)
+    |> Iugu.Request.get(__MODULE__, :direct_collection)
   end
 
   @spec create(%Iugu.Customer{}, map) :: Iugu.Request.post_response()
