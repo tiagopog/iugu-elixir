@@ -3,6 +3,9 @@ defmodule Iugu.Request do
   Handle request data and call the Iugu's API.
   """
 
+  @domain "https://api.iugu.com"
+  @api_version "v1"
+
   import Application, only: [get_env: 2]
 
   alias Iugu.{Request, Parser}
@@ -10,8 +13,8 @@ defmodule Iugu.Request do
   defstruct [
     api_token: nil,
     api_key: nil,
-    api_version: get_env(:iugu, :api_version) || "v1",
-    domain: get_env(:iugu, :domain) || "https://api.iugu.com",
+    api_version: get_env(:iugu, :api_version) || @api_version,
+    domain: get_env(:iugu, :domain) || @domain,
     path: "",
     params: %{},
     body: ""
