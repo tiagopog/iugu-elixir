@@ -80,17 +80,17 @@ defmodule Iugu.Resource do
   @doc false
   def define_action(:update) do
     quote do
-      @spec update(map, String.t()) :: Iugu.Request.put_response()
+      @spec update(String.t(), map()) :: Iugu.Request.put_response()
       @doc """
       Updates a #{__MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")}
 
       ## Parameters
+      - id: ID of Iugu #{__MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")}
         - data: Map with attributes to create a #{
         __MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")
       }
-        - id: ID of Iugu #{__MODULE__ |> Atom.to_string() |> String.replace("Elixir.Iugu.", "")}
       """
-      def update(%{} = data, id) do
+      def update(id, %{} = data) do
         case Poison.encode(data) do
           {:ok, json} ->
             %Iugu.Request{body: json, path: "#{@resource}/#{id}"}
