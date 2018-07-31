@@ -5,7 +5,7 @@ defmodule Iugu.Customer do
 
   use Iugu.Resource,
     name: "customers",
-    actions: [:list, :show, :create, :delete],
+    actions: [:list, :show, :create, :delete, :update],
     fields: [
       :email,
       :name,
