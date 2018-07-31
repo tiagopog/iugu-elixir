@@ -43,6 +43,7 @@ defmodule Iugu.Parser do
     {:error, Poison.Parser.parse!(body, keys: :atoms)}
   end
 
+  @spec parse_response({:error, HTTPoison.Error.t()}, any, any) :: {:error, String.t()}
   def parse_response({:error, %HTTPoison.Error{reason: reason}}, _module, _cardinality) do
     {:error, reason}
   end

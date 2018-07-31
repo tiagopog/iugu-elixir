@@ -5,7 +5,7 @@ defmodule Iugu.PaymentMethod do
 
   defstruct ~w(id description item_type data customer_id errors)a
 
-  @spec list(%Iugu.Customer{}) :: Iugu.Request.get_response()
+  @spec list(Iugu.Customer.t()) :: Iugu.Request.get_response()
   @doc """
   List Iugu's Customer Payment Methods
 
@@ -22,7 +22,7 @@ defmodule Iugu.PaymentMethod do
     |> Iugu.Request.get(__MODULE__, :direct_collection)
   end
 
-  @spec create(%Iugu.Customer{}, map) :: Iugu.Request.post_response()
+  @spec create(Iugu.Customer.t(), map) :: Iugu.Request.post_response()
   @doc """
   Creates a Iugu's Payment Method to customer
 
@@ -46,7 +46,7 @@ defmodule Iugu.PaymentMethod do
     end
   end
 
-  @spec update(%Iugu.Customer{}, String.t(), map) :: Iugu.Request.put_response()
+  @spec update(Iugu.Customer.t(), String.t(), map) :: Iugu.Request.put_response()
   @doc """
   Updates a Iugu's Payment Method of a customer
 
@@ -71,7 +71,7 @@ defmodule Iugu.PaymentMethod do
     end
   end
 
-  @spec show(%Iugu.Customer{}, String.t()) :: Iugu.Request.get_response()
+  @spec show(Iugu.Customer.t(), String.t()) :: Iugu.Request.get_response()
   @doc """
   Returns a Iugu's Payment Method of a customer
 
@@ -89,7 +89,7 @@ defmodule Iugu.PaymentMethod do
     |> Iugu.Request.get(__MODULE__, :single)
   end
 
-  @spec delete(%Iugu.Customer{}, String.t()) :: Iugu.Request.delete_response()
+  @spec delete(Iugu.Customer.t(), String.t()) :: Iugu.Request.delete_response()
   @doc """
   Delete a Iugu's Payment Method of a customer
 
