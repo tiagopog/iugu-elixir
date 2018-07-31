@@ -3,7 +3,7 @@ defmodule Iugu.PaymentMethod do
   Iugu's payment method resource
   """
 
-  defstruct ~w(id description item_type data customer_id)a
+  defstruct ~w(id description item_type data customer_id errors)a
 
   @spec list(%Iugu.Customer{}) :: Iugu.Request.get_response()
   @doc """
