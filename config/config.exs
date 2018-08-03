@@ -7,4 +7,5 @@ use Mix.Config
 config :iugu,
   api_key: System.get_env("IUGU_API_KEY"),
   api_version: nil,
-  domain: nil
+  domain: nil,
+  timeout: 5000

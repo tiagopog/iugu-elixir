@@ -57,7 +57,7 @@ defmodule Iugu.Request do
   def get(%Request{params: params} = request, module, cardinality) do
     request
     |> build_url()
-    |> HTTPoison.get(build_headers(request), params: params)
+    |> HTTPoison.get(build_headers(request), [params: params, timeout: get_env(:iugu, :timeout), recv_timeout: get_env(:iugu, :timeout)])
     |> Parser.parse_response(module, cardinality)
   end
 
@@ -71,7 +71,7 @@ defmodule Iugu.Request do
   def post(%Request{body: body} = request, module) do
     request
     |> build_url()
-    |> HTTPoison.post(body, build_headers(request))
+    |> HTTPoison.post(body, build_headers(request), [timeout: get_env(:iugu, :timeout), recv_timeout: get_env(:iugu, :timeout)])
     |> Parser.parse_response(module, :single)
   end
 
@@ -85,7 +85,7 @@ defmodule Iugu.Request do
   def put(%Request{body: body} = request, module) do
     request
     |> build_url()
-    |> HTTPoison.put(body, build_headers(request))
+    |> HTTPoison.put(body, build_headers(request), [timeout: get_env(:iugu, :timeout), recv_timeout: get_env(:iugu, :timeout)])
     |> Parser.parse_response(module, :single)
   end
 
@@ -99,7 +99,7 @@ defmodule Iugu.Request do
   def delete(%Request{} = request, module) do
     request
     |> build_url()
-    |> HTTPoison.delete(build_headers(request))
+    |> HTTPoison.delete(build_headers(request), [timeout: get_env(:iugu, :timeout), recv_timeout: get_env(:iugu, :timeout)])
     |> Parser.parse_response(module, :single)
   end
 
