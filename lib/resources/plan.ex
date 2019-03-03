@@ -5,7 +5,7 @@ defmodule Iugu.Plan do
 
   use Iugu.Resource,
     name: "plans",
-    actions: [:list, :show],
+    actions: [:list, :show, :delete],
     fields: [
       :name,
       :identifier,
@@ -14,5 +14,16 @@ defmodule Iugu.Plan do
       :prices,
       :features
     ]
-end
 
+  @spec show_by_identifier(String.t()) :: Iugu.Request.get_response()
+  @doc """
+  Returns a Iugu's Plan by identifier
+
+  ## Parameters
+    - identifier: Iugu Plan identifier - [Iugu Reference](https://dev.iugu.com/v1.0/reference#testinput-6)
+  """
+  def show_by_identifier(identifier) do
+    %Iugu.Request{path: "plans/identifier/#{identifier}"}
+    |> Iugu.Request.get(__MODULE__, :single)
+  end
+end

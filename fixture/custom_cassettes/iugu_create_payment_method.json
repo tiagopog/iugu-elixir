@@ -1,0 +1,39 @@
+[
+  {
+    "request": {
+      "body": "{\"token\":\"6CB722861E1B4A5389DFDA839CE673E9\",\"set_as_default\":true,\"description\":\"my credit card\"}",
+      "headers": {
+        "Authorization": "Basic dGVzdDo",
+        "Accept": "application/json; Charset=utf-8",
+        "Content-Type": "application/json"
+      },
+      "method": "post",
+      "options": [],
+      "request_body": "",
+      "url": "https://api.iugu.com/v1/customers/7AF40D656FD145FA89D0727ECD0D0803/payment_methods"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"id\":\"A4B29A0C94C04B19B80AB8EFFF9AE25F\",\"description\":\"my credit card\",\"item_type\":\"credit_card\",\"customer_id\":\"7AF40D656FD145FA89D0727ECD0D0803\",\"data\":{\"brand\":\"VISA\",\"holder_name\":\"Sergio S Junior\",\"display_number\":\"XXXX-XXXX-XXXX-4242\",\"bin\":\"424242\",\"month\":12,\"year\":2023}}",
+      "headers": {
+        "Cache-Control": "max-age=0, private, must-revalidate",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 26 Jul 2018 19:59:17 GMT",
+        "ETag": "\"578af1525b006746948835af3a4e07e2\"",
+        "Vary": "Origin",
+        "x-HandledBy": "api/v1/customer_payment_method#create",
+        "X-Rack-Cache": "invalidate, pass",
+        "X-Request-Id": "fb1b975eaf94125e96caf5877ffcf73f",
+        "X-Runtime": "0.303294",
+        "X-UA-Compatible": "IE=Edge,chrome=1",
+        "Content-Length": "280",
+        "Connection": "keep-alive",
+        "Set-Cookie": "visid_incap_1185448=4d8+nxmnTSmvtnfh5Rsx9xQoWlsAAAAAQUIPAAAAAADsGd+7AyIGbMhiXIINrurz; expires=Fri, 26 Jul 2019 12:11:56 GMT; path=/; Domain=.iugu.com",
+        "X-Iinfo": "14-80442629-80439165 PNNN RT(1532635156113 128) q(0 0 0 -1) r(3 3) U5",
+        "X-CDN": "Incapsula"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]
